@@ -1,0 +1,206 @@
+<view class="page">
+  <view class="hero card">
+    <view class="hero-top">
+      <view class="hero-icon">🌾</view>
+      <view class="hero-copy">
+        <view class="hero-title">王者农场种植助手</view>
+        <view class="hero-sub">极限收割测算、全周期排期、作物收益对照，一页完成。</view>
+      </view>
+    </view>
+    <view class="hero-tags">
+      <text class="hero-tag">极限收割计算器</text>
+      <text class="hero-tag">全周期播种排期器</text>
+      <text class="hero-tag">农场数据中心</text>
+    </view>
+  </view>
+
+  <view class="workspace">
+    <view class="main-col">
+      <view class="card">
+        <view class="card-title">极限收割计算器</view>
+        <view class="helper">输入当前植物状态，系统会判断是否进入斩杀线，并给出补水/收割节点。</view>
+
+        <view class="form-group">
+          <view class="label">1. 快速选择作物（自动填充总时间）</view>
+          <picker mode="selector" range="{{cropOptions}}" value="{{cropIndex}}" bindchange="onCropChange">
+            <view class="picker">{{cropOptions[cropIndex]}}</view>
+          </picker>
+        </view>
+
+        <view class="form-group">
+          <view class="label">2. 植物总时间</view>
+          <view class="row row-single">
+            <input class="input" type="number" value="{{form.t_h}}" data-field="t_h" bindinput="onNumberInput" />
+            <text class="addon">时</text>
+            <input class="input" type="number" value="{{form.t_m}}" data-field="t_m" bindinput="onNumberInput" />
+            <text class="addon">分</text>
+          </view>
+        </view>
+
+        <view class="form-group">
+          <view class="label">3. 当前剩余种植时间</view>
+          <view class="row">
+            <input class="input" type="number" value="{{form.r_h}}" data-field="r_h" bindinput="onNumberInput" />
+            <text class="addon">时</text>
+            <input class="input" type="number" value="{{form.r_m}}" data-field="r_m" bindinput="onNumberInput" />
+            <text class="addon">分</text>
+          </view>
+        </view>
+
+        <view class="form-group">
+          <view class="label">4. 当前剩余水量</view>
+          <view class="row">
+            <input class="input" type="number" value="{{form.w_h}}" data-field="w_h" bindinput="onNumberInput" />
+            <text class="addon">时</text>
+            <input class="input" type="number" value="{{form.w_m}}" data-field="w_m" bindinput="onNumberInput" />
+            <text class="addon">分</text>
+          </view>
+        </view>
+
+        <view wx:if="{{result.visible}}" class="result {{result.type}}">
+          <view class="result-title">{{result.title}}</view>
+          <view wx:for="{{result.lines}}" wx:key="*this" class="result-line">{{item}}</view>
+          <view wx:if="{{result.actions.length > 0}}" class="result-actions">
+            <view wx:for="{{result.actions}}" wx:key="offset" class="action-row">
+              <text class="action-kind">{{item.type === 'kill' ? '收割' : '补水'}}</text>
+              <text class="action-time">{{item.timeText}}</text>
+              <text class="action-title">{{item.title}}</text>
+            </view>
+          </view>
+          <button wx:if="{{result.showAlarm}}" class="alarm-btn" data-title="{{result.alarmTitle}}" data-ts="{{result.alarmTimestamp}}" bindtap="setAlarm">
+            复制提醒时间
+          </button>
+        </view>
+      </view>
+
+      <view class="card">
+        <view class="card-title">全周期播种排期器</view>
+        <view class="helper">设置总时长和种下时间，自动推演第 2 次、第 3 次补水与终极收割时间。</view>
+
+        <view class="form-group">
+          <view class="label">1. 农作物总时长</view>
+          <view class="duration-row">
+            <view wx:for="{{durationOptions}}" wx:key="mins" class="duration-btn {{currentDurationMins === item.mins ? 'active' : ''}}" data-mins="{{item.mins}}" bindtap="onDurationTap">
+              {{item.label}}
+            </view>
+          </view>
+        </view>
+
+        <view class="form-group">
+          <view class="label">2. 实际种下时间</view>
+          <view class="row">
+            <picker mode="date" value="{{plantDate}}" bindchange="onDateChange">
+              <view class="picker small">{{plantDate}}</view>
+            </picker>
+            <picker mode="time" value="{{plantClock}}" bindchange="onTimeChange">
+              <view class="picker small">{{plantClock}}</view>
+            </picker>
+          </view>
+        </view>
+
+        <view class="timeline-grid">
+          <view wx:for="{{timelineCards}}" wx:key="label" class="timeline-card {{item.danger ? 'danger' : ''}}">
+            <view class="timeline-icon">{{item.icon}}</view>
+            <view class="timeline-name">{{item.label}}</view>
+            <view class="timeline-time">{{item.time}}</view>
+            <view class="timeline-offset">{{item.offset}}</view>
+            <button wx:if="{{item.alarmTimestamp}}" size="mini" class="mini-alarm" data-title="{{item.alarmTitle}}" data-ts="{{item.alarmTimestamp}}" bindtap="setAlarm">
+              复制提醒
+            </button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="side-col card">
+      <view class="card-title">策略提示</view>
+      <view class="tip-item">1. 冲级优先看经验/h，补金币优先看金币/h。</view>
+      <view class="tip-item">2. 斩杀线外按排期补水，斩杀线内严格按闹钟执行。</view>
+      <view class="tip-item">3. 长时作物适合离线，短时作物适合高频上线。</view>
+      <view class="tip-item">4. 大版本前先备货，活动期再集中收割。</view>
+    </view>
+  </view>
+
+  <view class="card data-card">
+    <view class="card-title">农场数据中心</view>
+
+    <scroll-view class="tabs" scroll-x>
+      <view class="tab {{activeTab==='crops' ? 'active' : ''}}" data-tab="crops" bindtap="onTabChange">作物信息</view>
+      <view class="tab {{activeTab==='farm' ? 'active' : ''}}" data-tab="farm" bindtap="onTabChange">农场等级</view>
+      <view class="tab {{activeTab==='stall' ? 'active' : ''}}" data-tab="stall" bindtap="onTabChange">小摊等级</view>
+      <view class="tab {{activeTab==='field' ? 'active' : ''}}" data-tab="field" bindtap="onTabChange">农田开垦</view>
+    </scroll-view>
+
+    <view wx:if="{{activeTab==='crops'}}">
+      <view class="sort-row">
+        <view class="sort-btn" data-key="level" bindtap="onSortTap">按等级</view>
+        <view class="sort-btn" data-key="name" bindtap="onSortTap">按作物</view>
+        <view class="sort-btn" data-key="buy" bindtap="onSortTap">按买价</view>
+        <view class="sort-btn" data-key="sell" bindtap="onSortTap">按售价</view>
+        <view class="sort-btn" data-key="time" bindtap="onSortTap">按时长</view>
+        <view class="sort-btn" data-key="expH" bindtap="onSortTap">按经验/h</view>
+        <view class="sort-btn" data-key="coinH" bindtap="onSortTap">按金币/h</view>
+      </view>
+      <scroll-view scroll-x class="table-wrap">
+        <view class="row-crop head">
+          <text>等级</text>
+          <text>农作物</text>
+          <text>买价</text>
+          <text>卖价</text>
+          <text>总时长</text>
+          <text>经验/h</text>
+          <text>金币/h</text>
+          <text>建议</text>
+        </view>
+        <view wx:for="{{cropRows}}" wx:key="level" class="row-crop {{item.isGoldTop ? 'row-crop-gold' : ''}} {{item.isCrownTop ? 'row-crop-crown' : ''}}">
+          <text>{{item.levelText}}</text>
+          <text class="{{item.isGoldTop ? 'gold-name' : ''}} {{item.isCrownTop ? 'crown-name' : ''}}">{{item.name}}</text>
+          <text>{{item.buy}}</text>
+          <text>{{item.sell}}</text>
+          <text>{{item.timeText}}</text>
+          <text>{{item.expText}}</text>
+          <text>{{item.coinText}}</text>
+          <text class="{{item.isGoldTop ? 'gold-advice' : ''}} {{item.isCrownTop ? 'crown-advice' : ''}}">{{item.advice}}</text>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view wx:if="{{activeTab==='farm'}}">
+      <scroll-view scroll-x class="table-wrap">
+        <view class="row-farm head">
+          <text>等级</text><text>费用</text><text>经验</text><text>作物</text><text>变异</text><text>小摊</text><text>农田</text><text>功能</text><text>家具</text>
+        </view>
+        <view wx:for="{{farmRows}}" wx:key="level" class="row-farm">
+          <text>Lv.{{item.level}}</text><text>{{item.cost}}</text><text>{{item.exp}}</text><text>{{item.crop}}</text><text>{{item.mutation}}</text><text>{{item.stall}}</text><text>{{item.field}}</text><text>{{item.func}}</text><text>{{item.furniture}}</text>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view wx:if="{{activeTab==='stall'}}">
+      <scroll-view scroll-x class="table-wrap">
+        <view class="row-stall head">
+          <text>等级</text><text>升级费用</text><text>奖励经验</text><text>提升售价</text>
+        </view>
+        <view wx:for="{{stallRows}}" wx:key="level" class="row-stall">
+          <text>Lv.{{item.level}}</text>
+          <text>{{item.cost}}</text>
+          <text>{{item.exp}}</text>
+          <text>{{item.boostText}}</text>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view wx:if="{{activeTab==='field'}}">
+      <scroll-view scroll-x class="table-wrap">
+        <view class="row-field head">
+          <text>农田</text><text>开垦费用</text><text>获得经验</text>
+        </view>
+        <view wx:for="{{fieldRows}}" wx:key="level" class="row-field">
+          <text>第{{item.level}}块</text>
+          <text>{{item.cost}}</text>
+          <text>{{item.exp}}</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

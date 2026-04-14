@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "\u738b\u8005\u519c\u573a\u79cd\u690d\u52a9\u624b",
+    "navigationBarBackgroundColor": "#234e52",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f6f1e8",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
