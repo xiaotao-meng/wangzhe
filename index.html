@@ -373,8 +373,14 @@
       }
 
       .pmo-crown {
-        color: #b86e22;
-        background: #fff2df;
+        color: #6f2dbd;
+        background: linear-gradient(180deg, #f5ebff 0%, #ede0ff 100%);
+        font-weight: 700;
+      }
+
+      .pmo-gold {
+        color: #8a5b14;
+        background: linear-gradient(180deg, #fff7e8 0%, #fff2da 100%);
         font-weight: 700;
       }
 
@@ -1099,17 +1105,17 @@
         { level: 12, name: "🌻 向日葵", buy: 36, sell: 480, time: 3600, expH: 202.0, coinH: 480.0, advice: "1小时高回报，勤上线优先" },
         { level: 14, name: "🫑 青椒", buy: 274, sell: 3525, time: 28800, expH: 207.0, coinH: 440.6, advice: "8小时睡前常规首选" },
         { level: 16, name: "🧄 大蒜", buy: 453, sell: 6030, time: 57600, expH: 212.4, coinH: 376.9, advice: "16小时稳健线，省心" },
-        { level: 18, name: "🍌 香蕉", buy: 1812, sell: 19320, time: 57600, expH: 0.1, coinH: 1207.5, advice: "💰 金币高但经验低，冲级慎用" },
+        { level: 18, name: "🍌 香蕉", buy: 1812, sell: 19320, time: 57600, expH: 0.1, coinH: 1207.5, advice: "金币天花板，周末双倍必种" },
         { level: 20, name: "🫐 蓝莓", buy: 675, sell: 9000, time: 115200, expH: 223.2, coinH: 281.3, advice: "32小时超长档，周末前种" },
         { level: 22, name: "🥒 黄瓜", buy: 41, sell: 550, time: 3600, expH: 229.0, coinH: 550.0, advice: "🌟 1小时性价比优先位" },
         { level: 24, name: "🍆 茄子", buy: 308, sell: 4110, time: 28800, expH: 234.0, coinH: 513.8, advice: "🌟 8小时效率档，睡前优选" },
         { level: 26, name: "🎃 南瓜", buy: 507, sell: 7050, time: 57600, expH: 239.4, coinH: 440.6, advice: "16小时均衡档，通用" },
-        { level: 28, name: "🍊 柚子", buy: 2030, sell: 22550, time: 57600, expH: 0.1, coinH: 1409.4, advice: "💰 金币极高但经验亏，按需" },
+        { level: 28, name: "🍊 柚子", buy: 2030, sell: 22550, time: 57600, expH: 0.1, coinH: 1409.4, advice: "金币天花板，周末双倍必种" },
         { level: 30, name: "🥬 卷心菜", buy: 756, sell: 10500, time: 115200, expH: 250.2, coinH: 328.1, advice: "32小时冲级档，离线优先" },
         { level: 32, name: "🌱 萝卜", buy: 48, sell: 670, time: 3600, expH: 256.0, coinH: 670.0, advice: "🌟 1小时进阶首选" },
         { level: 34, name: "🍇 葡萄", buy: 359, sell: 4980, time: 28800, expH: 261.0, coinH: 622.5, advice: "🌟 8小时进阶收益优" },
         { level: 36, name: "🥗 生菜", buy: 590, sell: 8560, time: 57600, expH: 266.4, coinH: 535.0, advice: "16小时收益稳，常态挂机" },
-        { level: 38, name: "🍉 西瓜", buy: 2362, sell: 27400, time: 57600, expH: 0.1, coinH: 1712.5, advice: "💰 金币收益高，冲级期不推荐" },
+        { level: 38, name: "🍉 西瓜", buy: 2362, sell: 27400, time: 57600, expH: 0.1, coinH: 1712.5, advice: "金币天花板，周末双倍必种" },
         { level: 40, name: "🌶️ 辣椒", buy: 879, sell: 12760, time: 115200, expH: 277.2, coinH: 398.8, advice: "32小时终盘冲级" },
         { level: 42, name: "🧅 洋葱", buy: 54, sell: 780, time: 3600, expH: 283.0, coinH: 780.0, advice: "👑 1小时版本强势单品" },
         { level: 44, name: "🥦 花菜", buy: 405, sell: 5880, time: 28800, expH: 288.0, coinH: 735.0, advice: "👑 8小时版本强势单品" },
@@ -1263,16 +1269,22 @@
           const tr = document.createElement("tr");
           let rowStyle = "";
           let adviceStyle = "";
+          let nameStyle = "font-weight:bold;";
           if (row.advice.includes("🌟")) rowStyle = "pmo-star";
           if (row.advice.includes("👑")) rowStyle = "pmo-crown";
-          if (row.advice.includes("💰")) {
-            rowStyle = "pmo-warning";
-            adviceStyle = "color: var(--danger); font-weight: bold;";
+          if (row.advice.includes("👑") || row.advice.includes("版本强势单品")) {
+            adviceStyle = "color: #6f2dbd; font-weight: 800;";
+            nameStyle = "font-weight:800; color:#6f2dbd;";
+          }
+          if (row.advice.includes("💰") || row.advice.includes("金币天花板")) {
+            rowStyle = "pmo-gold";
+            adviceStyle = "color: #b36400; font-weight: 800;";
+            nameStyle = "font-weight:800; color:#b36400;";
           }
           tr.className = `row-hover ${rowStyle}`;
           tr.innerHTML = `
             <td>Lv. ${row.level}</td>
-            <td style="font-weight:bold;">${row.name}</td>
+            <td style="${nameStyle}">${row.name}</td>
             <td style="color:#888;">${row.buy}</td>
             <td style="font-weight:bold;">${row.sell}</td>
             <td>${formatTimeStr(row.time)}</td>
