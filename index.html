@@ -155,6 +155,155 @@
         font-size: 14px;
       }
 
+      .account-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .account-field label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+
+      .account-inline {
+        display: flex;
+        gap: 8px;
+      }
+
+      .account-inline input[type="text"] {
+        flex: 1;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.92);
+        padding: 11px 12px;
+        font-size: 15px;
+      }
+
+      .account-inline input[type="text"]:focus {
+        outline: none;
+        border-color: var(--ocean-2);
+        box-shadow: 0 0 0 3px rgba(31, 111, 139, 0.18);
+      }
+
+      .account-actions-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .account-btn {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ocean-1);
+        border-radius: 10px;
+        padding: 9px 12px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .account-btn:hover {
+        background: #f2f8ff;
+      }
+
+      .account-btn.primary {
+        border-color: transparent;
+        background: linear-gradient(135deg, var(--ocean-1), var(--ocean-2));
+        color: #fff;
+      }
+
+      .account-btn.danger {
+        border-color: #f7bcbc;
+        color: var(--danger);
+        background: #fff1f1;
+      }
+
+      .account-status {
+        margin-top: 10px;
+        color: var(--ink-soft);
+        font-size: 13px;
+      }
+
+      .multi-account-form {
+        display: grid;
+        gap: 12px;
+      }
+
+      .multi-account-fields {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .multi-account-form .account-field {
+        min-width: 0;
+      }
+
+      .multi-account-form .account-field label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+
+      .multi-account-form input[type="text"],
+      .multi-account-form input[type="number"],
+      .multi-account-form input[type="datetime-local"],
+      .multi-account-form select {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.92);
+        padding: 11px 12px;
+        font-size: 14px;
+      }
+
+      .multi-account-form input[type="text"]:focus,
+      .multi-account-form input[type="number"]:focus,
+      .multi-account-form input[type="datetime-local"]:focus,
+      .multi-account-form select:focus {
+        outline: none;
+        border-color: var(--ocean-2);
+        box-shadow: 0 0 0 3px rgba(31, 111, 139, 0.18);
+      }
+
+      .multi-account-table {
+        min-width: 920px;
+      }
+
+      .multi-account-empty {
+        text-align: center;
+        color: var(--ink-soft);
+      }
+
+      .quick-sync-panel {
+        margin-top: 14px;
+        border: 1px dashed rgba(11, 57, 84, 0.24);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.76);
+        padding: 12px;
+      }
+
+      .quick-sync-title {
+        margin: 0 0 8px;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--ocean-1);
+      }
+
+      .quick-sync-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .quick-sync-status {
+        margin-top: 8px;
+        font-size: 13px;
+        color: var(--ink-soft);
+      }
+
       .form-group { margin-bottom: 16px; }
       .form-group label {
         display: block;
@@ -163,6 +312,7 @@
       }
 
       select,
+      input[type="text"],
       input[type="number"],
       input[type="datetime-local"] {
         width: 100%;
@@ -175,6 +325,7 @@
       }
 
       select:focus,
+      input[type="text"]:focus,
       input[type="number"]:focus,
       input[type="datetime-local"]:focus {
         outline: none;
@@ -418,6 +569,14 @@
         .timeline-container {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
+
+        .multi-account-fields {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .quick-sync-grid {
+          grid-template-columns: 1fr;
+        }
       }
 
       @media screen and (max-width: 680px) {
@@ -462,6 +621,23 @@
         .input-row input:nth-child(3),
         .input-row .input-addon:nth-child(4) {
           display: none;
+        }
+
+        .account-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .account-inline {
+          flex-direction: column;
+        }
+
+        .account-actions-row {
+          display: grid;
+          grid-template-columns: 1fr;
+        }
+
+        .multi-account-fields {
+          grid-template-columns: 1fr;
         }
 
         .tabs {
@@ -562,6 +738,33 @@
             </div>
 
             <div id="resultPanel"></div>
+
+            <div class="quick-sync-panel">
+              <p class="quick-sync-title">保存到多账号管理</p>
+              <div class="quick-sync-grid">
+                <div class="account-field">
+                  <label>大区</label>
+                  <select id="syncRegionSelect">
+                    <option value="iOS/Q区">iOS/Q区</option>
+                    <option value="iOS/V区">iOS/V区</option>
+                    <option value="安卓/Q区">安卓/Q区</option>
+                    <option value="安卓/V区">安卓/V区</option>
+                  </select>
+                </div>
+                <div class="account-field">
+                  <label>账号ID</label>
+                  <input type="text" id="syncAccountIdInput" list="accountIdHistoryList" placeholder="请输入账号ID" maxlength="40" />
+                </div>
+                <div class="account-field">
+                  <label>祝福次数</label>
+                  <input type="number" id="syncBlessingInput" min="0" max="99" value="10" />
+                </div>
+              </div>
+              <div class="account-actions-row">
+                <button type="button" class="account-btn primary" onclick="saveCalculatorToMultiAccount()">保存到多账号管理</button>
+              </div>
+              <div id="quickSyncStatus" class="quick-sync-status"></div>
+            </div>
           </section>
 
           <section class="card">
@@ -630,6 +833,32 @@
           </ol>
         </aside>
       </div>
+
+      <section class="card" style="margin-top: 18px;">
+        <h2 class="card-title">多账号管理</h2>
+        <p class="helper">仅保留账号列表展示，新增请使用上方“保存到多账号管理”。</p>
+
+        <div class="table-wrapper" style="margin-top: 12px;">
+          <table class="multi-account-table">
+            <thead>
+              <tr>
+                <th>大区</th>
+                <th>账号ID</th>
+                <th>当前作物</th>
+                <th>祝福次数</th>
+                <th>1次浇水</th>
+                <th>2次浇水</th>
+                <th>收割时间</th>
+                <th>删除</th>
+              </tr>
+            </thead>
+            <tbody id="multiAccountBody"></tbody>
+          </table>
+        </div>
+
+        <div id="accountStatus" class="account-status"></div>
+        <datalist id="accountIdHistoryList"></datalist>
+      </section>
 
       <section class="card" style="margin-top: 18px;">
         <h2 class="card-title">农场数据中心</h2>
@@ -1253,6 +1482,354 @@
           { level: 24, cost: "766万", exp: "100000" }
       ];
 
+      const MULTI_ACCOUNT_STORAGE_KEY = "wangzhe_multi_accounts_v1";
+      let multiAccountEntries = [];
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function formatAccountDateTime(value) {
+        if (!value) return "--";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "--";
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, "0");
+        const dd = String(date.getDate()).padStart(2, "0");
+        const hh = String(date.getHours()).padStart(2, "0");
+        const min = String(date.getMinutes()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd} ${hh}:${min}`;
+      }
+
+      function toLocalDateTimeValue(dateObj) {
+        const yyyy = dateObj.getFullYear();
+        const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
+        const dd = String(dateObj.getDate()).padStart(2, "0");
+        const hh = String(dateObj.getHours()).padStart(2, "0");
+        const min = String(dateObj.getMinutes()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd}T${hh}:${min}`;
+      }
+
+      function setAccountStatus(message, isError = false) {
+        const statusEl = document.getElementById("accountStatus");
+        if (!statusEl) return;
+        statusEl.textContent = message || "";
+        statusEl.style.color = isError ? "var(--danger)" : "var(--ink-soft)";
+      }
+
+      function setQuickSyncStatus(message, isError = false) {
+        const statusEl = document.getElementById("quickSyncStatus");
+        if (!statusEl) return;
+        statusEl.textContent = message || "";
+        statusEl.style.color = isError ? "var(--danger)" : "var(--ink-soft)";
+      }
+
+      function normalizeAccountId(accountId) {
+        return String(accountId || "").trim().toLowerCase();
+      }
+
+      function findMultiAccountById(accountId) {
+        const normalized = normalizeAccountId(accountId);
+        if (!normalized) return null;
+        return (
+          multiAccountEntries.find(
+            (item) => normalizeAccountId(item.accountId) === normalized,
+          ) || null
+        );
+      }
+
+      function updateAccountIdHistoryOptions() {
+        const listEl = document.getElementById("accountIdHistoryList");
+        if (!listEl) return;
+        const seen = new Set();
+        const ids = [];
+        multiAccountEntries.forEach((item) => {
+          const id = String(item.accountId || "").trim();
+          const key = normalizeAccountId(id);
+          if (!id || seen.has(key)) return;
+          seen.add(key);
+          ids.push(id);
+        });
+        listEl.innerHTML = ids
+          .map((id) => `<option value="${escapeHtml(id)}"></option>`)
+          .join("");
+      }
+
+      function upsertMultiAccountEntry(entry) {
+        const accountId = String(entry.accountId || "").trim();
+        const normalized = normalizeAccountId(accountId);
+        if (!normalized) {
+          return { mode: "invalid", entry: null };
+        }
+
+        const baseEntry = {
+          id: Date.now() + Math.floor(Math.random() * 1000),
+          region: String(entry.region || "").trim(),
+          accountId,
+          crop: String(entry.crop || "").trim(),
+          blessing: Math.max(
+            0,
+            Math.floor(
+              Number.isFinite(Number(entry.blessing)) ? Number(entry.blessing) : 0,
+            ),
+          ),
+          water1: entry.water1 || "",
+          water2: entry.water2 || "",
+          harvest: entry.harvest || "",
+        };
+
+        const existingIndex = multiAccountEntries.findIndex(
+          (item) => normalizeAccountId(item.accountId) === normalized,
+        );
+
+        if (existingIndex >= 0) {
+          const existing = multiAccountEntries[existingIndex];
+          const updated = { ...existing, ...baseEntry, id: existing.id };
+          multiAccountEntries.splice(existingIndex, 1);
+          multiAccountEntries.unshift(updated);
+          return { mode: "updated", entry: updated };
+        }
+
+        multiAccountEntries.unshift(baseEntry);
+        return { mode: "added", entry: baseEntry };
+      }
+
+      function getDurationCropLabelFromSeconds(seconds) {
+        if (seconds === 3600) return "1小时农作物";
+        if (seconds === 28800) return "8小时农作物";
+        if (seconds === 57600) return "16小时农作物";
+        if (seconds === 115200) return "32小时农作物";
+        return "";
+      }
+
+      function getDurationCropLabelFromHours(hours) {
+        if (hours === 1) return "1小时农作物";
+        if (hours === 8) return "8小时农作物";
+        if (hours === 16) return "16小时农作物";
+        if (hours === 32) return "32小时农作物";
+        return hours > 0 ? `${hours}小时农作物` : "未指定作物";
+      }
+
+      function getDurationCropLabelFromText(cropText) {
+        const raw = String(cropText || "").trim();
+        if (!raw) return "--";
+        if (/1\s*小时/.test(raw)) return "1小时农作物";
+        if (/8\s*小时/.test(raw)) return "8小时农作物";
+        if (/16\s*小时/.test(raw)) return "16小时农作物";
+        if (/32\s*小时/.test(raw)) return "32小时农作物";
+
+        const matchedSeconds = cropData
+          .filter((item) => item.time > 0)
+          .filter((item) => {
+            const plainName = String(item.name).replace(/^[^\u4e00-\u9fa5A-Za-z0-9]+/, "").trim();
+            return plainName && raw.includes(plainName);
+          })
+          .map((item) => item.time);
+        if (matchedSeconds.length > 0) {
+          const stat = {};
+          matchedSeconds.forEach((sec) => {
+            stat[sec] = (stat[sec] || 0) + 1;
+          });
+          const top = Number(
+            Object.keys(stat).sort((a, b) => stat[b] - stat[a])[0],
+          );
+          const label = getDurationCropLabelFromSeconds(top);
+          if (label) return label;
+        }
+
+        const hoursMatch = raw.match(/(\d+)\s*小时/);
+        if (hoursMatch) {
+          return getDurationCropLabelFromHours(Number(hoursMatch[1]));
+        }
+        return raw;
+      }
+
+      function getCalculatorDurationCropLabel() {
+        const durationMins = Number(window.currentDurationMins || 0);
+        if (durationMins > 0) {
+          return getDurationCropLabelFromHours(Math.round(durationMins / 60));
+        }
+        const totalHours = Number(document.getElementById("t_h")?.value || 0);
+        return getDurationCropLabelFromHours(totalHours);
+      }
+
+      function getTimelineSyncValues() {
+        const plantInput = document.getElementById("plantTime")?.value || "";
+        const duration = Number(window.currentDurationMins || 0);
+        if (!plantInput || duration <= 0) {
+          return { water1: "", water2: "", harvest: "" };
+        }
+        const startTime = new Date(plantInput);
+        if (Number.isNaN(startTime.getTime())) {
+          return { water1: "", water2: "", harvest: "" };
+        }
+
+        const water1 = new Date(startTime.getTime() + (duration / 3) * 60000);
+        const water2 = new Date(startTime.getTime() + ((2 * duration) / 3) * 60000);
+        const harvest = new Date(startTime.getTime() + ((11 * duration) / 15) * 60000);
+        return {
+          water1: toLocalDateTimeValue(water1),
+          water2: toLocalDateTimeValue(water2),
+          harvest: toLocalDateTimeValue(harvest),
+        };
+      }
+
+      function saveMultiAccountEntries() {
+        localStorage.setItem(
+          MULTI_ACCOUNT_STORAGE_KEY,
+          JSON.stringify(multiAccountEntries),
+        );
+        updateAccountIdHistoryOptions();
+      }
+
+      function loadMultiAccountEntries() {
+        const raw = localStorage.getItem(MULTI_ACCOUNT_STORAGE_KEY);
+        if (!raw) {
+          multiAccountEntries = [];
+          return;
+        }
+        try {
+          const parsed = JSON.parse(raw);
+          if (!Array.isArray(parsed)) {
+            multiAccountEntries = [];
+            return;
+          }
+          const seen = new Set();
+          multiAccountEntries = [];
+          parsed.forEach((item) => {
+            const accountId = String(item.accountId || "").trim();
+            const normalized = normalizeAccountId(accountId);
+            if (!normalized || seen.has(normalized)) return;
+            seen.add(normalized);
+            multiAccountEntries.push({
+              id: item.id || Date.now() + Math.floor(Math.random() * 1000),
+              region: item.region || "",
+              accountId,
+              crop: item.crop || "",
+              blessing: Number.isFinite(Number(item.blessing))
+                ? Number(item.blessing)
+                : 0,
+              water1: item.water1 || "",
+              water2: item.water2 || "",
+              harvest: item.harvest || "",
+            });
+          });
+        } catch (err) {
+          multiAccountEntries = [];
+        }
+      }
+
+      function applyHistoryToQuickSyncForm() {
+        const accountId = document.getElementById("syncAccountIdInput")?.value || "";
+        const matched = findMultiAccountById(accountId);
+        if (!matched) return;
+
+        const regionEl = document.getElementById("syncRegionSelect");
+        const blessingEl = document.getElementById("syncBlessingInput");
+        if (regionEl && matched.region) {
+          const hasOption = Array.from(regionEl.options).some(
+            (opt) => opt.value === matched.region,
+          );
+          if (hasOption) regionEl.value = matched.region;
+        }
+        if (blessingEl) blessingEl.value = String(matched.blessing ?? 10);
+        setQuickSyncStatus("已识别历史账号ID，已自动回填大区与祝福次数。");
+      }
+
+      function bindAccountIdRecognizers() {
+        const syncInput = document.getElementById("syncAccountIdInput");
+        if (syncInput) {
+          syncInput.addEventListener("input", applyHistoryToQuickSyncForm);
+          syncInput.addEventListener("change", applyHistoryToQuickSyncForm);
+          syncInput.addEventListener("blur", applyHistoryToQuickSyncForm);
+        }
+      }
+
+      function renderMultiAccountTable() {
+        const tbody = document.getElementById("multiAccountBody");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+
+        if (multiAccountEntries.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" class="multi-account-empty">暂无账号记录，先添加一条吧。</td></tr>`;
+          return;
+        }
+
+        multiAccountEntries.forEach((item) => {
+          const tr = document.createElement("tr");
+          tr.className = "row-hover";
+          tr.innerHTML = `
+            <td>${escapeHtml(item.region)}</td>
+            <td>${escapeHtml(item.accountId)}</td>
+            <td>${escapeHtml(getDurationCropLabelFromText(item.crop))}</td>
+            <td>${escapeHtml(item.blessing)}</td>
+            <td>${escapeHtml(formatAccountDateTime(item.water1))}</td>
+            <td>${escapeHtml(formatAccountDateTime(item.water2))}</td>
+            <td>${escapeHtml(formatAccountDateTime(item.harvest))}</td>
+            <td><button type="button" class="account-btn danger" onclick="deleteMultiAccountEntry(${Number(item.id)})">删除</button></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      function deleteMultiAccountEntry(id) {
+        multiAccountEntries = multiAccountEntries.filter((item) => Number(item.id) !== Number(id));
+        saveMultiAccountEntries();
+        renderMultiAccountTable();
+        setAccountStatus("已删除对应账号记录。");
+      }
+
+      function initMultiAccountManager() {
+        loadMultiAccountEntries();
+        updateAccountIdHistoryOptions();
+        bindAccountIdRecognizers();
+        renderMultiAccountTable();
+      }
+
+      function saveCalculatorToMultiAccount() {
+        const region = document.getElementById("syncRegionSelect")?.value || "iOS/Q区";
+        const accountId = (document.getElementById("syncAccountIdInput")?.value || "").trim();
+        const blessingInput = Number(document.getElementById("syncBlessingInput")?.value || 10);
+
+        if (!accountId) {
+          setQuickSyncStatus("请先填写账号ID，再保存。", true);
+          return;
+        }
+
+        const crop = getCalculatorDurationCropLabel();
+        const timeline = getTimelineSyncValues();
+        const blessing = Math.max(0, Math.floor(Number.isFinite(blessingInput) ? blessingInput : 10));
+
+        const result = upsertMultiAccountEntry({
+          region,
+          accountId,
+          crop,
+          blessing,
+          water1: timeline.water1,
+          water2: timeline.water2,
+          harvest: timeline.harvest,
+        });
+        if (result.mode === "invalid") {
+          setQuickSyncStatus("账号ID无效，请重新填写。", true);
+          return;
+        }
+
+        saveMultiAccountEntries();
+        renderMultiAccountTable();
+        if (result.mode === "updated") {
+          setAccountStatus(`已同步并覆盖账号：${region} / ${accountId}`);
+          setQuickSyncStatus("已覆盖原账号记录并更新最新计算数据。");
+        } else {
+          setAccountStatus(`已同步账号：${region} / ${accountId}`);
+          setQuickSyncStatus("已保存到多账号管理，可在下方列表查看。");
+        }
+      }
+
       // ================= 渲染与排序逻辑 =================
       let currentSort = { key: "level", asc: true };
 
@@ -1373,6 +1950,7 @@
       document.addEventListener("DOMContentLoaded", () => {
           renderTable();          // 渲染作物表
           renderStaticTables();   // 渲染剩下的三张表
+          initMultiAccountManager();
       });
 
 
